@@ -18,7 +18,7 @@ import com.example.downloaddemo.view.DemoView2;
  * 目前不支持横屏
  */
 public class DemoTimeLineView extends RelativeLayout {
-
+    private static final String TAG = DemoTimeLineView.class.getSimpleName();
     private CustomerScrollView scrollView;
     private DemoView2 demoView2;
     private TextView tvTime;
@@ -98,15 +98,16 @@ public class DemoTimeLineView extends RelativeLayout {
      * 初始化视图
      */
     private void init(){
+        Log.d(TAG,"init()");
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.demo_download_time_line_view, null);
         demoView2 = contentView.findViewById(R.id.demo_view2);
         demoView2.setOnRightMoveListener(new DemoView2.OnMoveListener() {
             @Override
             public void onMove(int xLeft, int xRight) {
+                Log.d(TAG,"onMove()");
                 if (scrollView != null){
                     int xScroll = scrollView.getScrollX();
                     resetSelectTime(xScroll + xLeft + demoView2.BUTTON_WIDTH, xScroll + xRight);
-
                 }
             }
         });
@@ -119,6 +120,7 @@ public class DemoTimeLineView extends RelativeLayout {
         scrollView.setOnScrollTimeChangeListener(new CustomerScrollView.OnScrollTimeChangeListener() {
             @Override
             public void onScrollTimeChange() {
+                Log.d(TAG,"onScrollTimeChange()");
                 int xScroll = scrollView.getScrollX();
                 resetSelectTime( xScroll + demoView2.getxLeftButton() + demoView2.BUTTON_WIDTH, xScroll + demoView2.getxRightButton());
             }

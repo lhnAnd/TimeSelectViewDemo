@@ -412,7 +412,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
     public String calculSelectTime(int scrollX) {
         float selectX = scrollX - mWidth / 2f;
         long selectTimeOfSec = (long) (selectX / (mRate * mWidth) * 24 * 3600 * 1000);
-        Log.e(TAG,"time:" + formatTime(selectTimeOfSec));
+//        Log.e(TAG,"time:" + formatTime(selectTimeOfSec));
 //        if (mWatchType == WATCH_TYPE_ALARM) {
 //            mScrollToTimeListener.onScrollToTime(formatTime(mWatchAlarmSelectTime));
 //        } else {
