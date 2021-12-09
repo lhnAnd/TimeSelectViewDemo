@@ -23,14 +23,15 @@ import com.example.downloaddemo.util.DensityConverter;
 
 import java.util.ArrayList;
 
+/**
+ * 2021.11 lhn
+ * 时间轴绘制view
+ */
 public class TimeAreaView extends View {
 
     private static final boolean VERBOSE_LOG = false;
     private static final String TAG = "TimeAreaView";
     private static final int PAINT_COLOR_ALARM_AREA = Color.parseColor(/*"#DA1D1D"*//*"#845254"*//*"#ff5c3c"*/ "#FF984F");
-    //	private static final int PAINT_COLOR_BG = Color.parseColor("#70BCBD");
-//	private static final int PAINT_COLOR_BG = Color.parseColor("#3a3a3a");
-    //private static final int PAINT_COLOR_BG = Color.parseColor("#000000");
     private static final int PAINT_COLOR_BG = Color.parseColor("#F9F9F9");
     private static final int PAINT_COLOR_BG_DARK = Color.parseColor("#F21a1a1a");
 
@@ -43,14 +44,12 @@ public class TimeAreaView extends View {
     private static final int PAINT_COLOR_TEXT_DARK = /*Color.WHITE*/ Color.parseColor(/*"#36ffffff" */"#FFFFFFFF");
 
     private static final int WHITE = Color.parseColor("#ffffff");
-    //private static final int ORANGE =Color.parseColor("#FD8B34");
 
     private static final int ORANGE = Color.parseColor(/*"#FF4081"*/"#FF984F");
     private static final int ORANGE_DARK = Color.parseColor(/*"#FF4081"*/"#4DA66301");
 
     private static final float STEP_SIZE = 1f;
 
-    //	private static final int PAINT_ALPHA_BG = 35;
     private static final int PAINT_ALPHA_BG = 128/*77*/;
 
     private Paint mAlarmAreaPaint, mBgPaint, mPlanAreaPaint, mTimeSplitLinePaint, mTextPaint, mFaceMsgAreaPaint, clipsPaint;
@@ -245,33 +244,6 @@ public class TimeAreaView extends View {
     }
 
     private ArrayList<TimeAreaInfo> mCloudCreateTimeBeforeTimeAreaInfoList = new ArrayList<>();
-
-//    public void setRecordInfoList(ArrayList<CloudRecordInfo> recordList, long CloudCreateTime, boolean isOpenCloud) {
-//        mTimeAreaInfoList = TimeAreaUtil.getTimeAreaInfoList(recordList);
-//        clipsmTimeAreaInfoList.clear();
-//        boolean frist = true;
-//        long time = System.currentTimeMillis();
-////        if (isOpenCloud) {
-////            for (TimeAreaInfo areaInfo : mTimeAreaInfoList) {
-////                if (areaInfo.getCloudRecordInfo().getRecordType() != RecordType.CLIPS && frist) {
-////                    time = areaInfo.getmStartTime();
-////                    frist = false;
-////                }
-////                if (areaInfo.getCloudRecordInfo().getRecordType() == RecordType.CLIPS) {
-////                    if (areaInfo.getmStartTime() > CloudCreateTime) {
-////                        clipsmTimeAreaInfoList.add(areaInfo);
-////                    }
-////                }
-////            }
-////            for (TimeAreaInfo timeAreaInfo : clipsmTimeAreaInfoList) {
-////                if (!(timeAreaInfo.getmStartTime() < time)) {
-////                    mTimeAreaInfoList.remove(timeAreaInfo);
-////                }
-////            }
-////        }
-//        Log.i(TAG, "是否阻塞在这");
-//        postInvalidate();
-//    }
 
     public ArrayList<TimeAreaInfo> getRecordInfoList() {
         return mTimeAreaInfoList;

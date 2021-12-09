@@ -13,6 +13,9 @@ import android.widget.ScrollView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+/**
+ * 本来是想要通过两个view的点击事件来实现这个效果，但是这样不好绘制中间的两条线，所以放弃
+ */
 public class DemoView extends View {
     public DemoView(Context context) {
         super(context);
