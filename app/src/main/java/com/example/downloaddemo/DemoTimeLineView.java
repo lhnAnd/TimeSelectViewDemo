@@ -12,6 +12,11 @@ import com.example.downloaddemo.R;
 import com.example.downloaddemo.view.CustomerScrollView;
 import com.example.downloaddemo.view.DemoView2;
 
+/**
+ * 2021.11 lhn
+ * 时间选择器自定义view，包含一个可拖动的选择框和一个可滚动的时间轴
+ * 目前不支持横屏
+ */
 public class DemoTimeLineView extends RelativeLayout {
 
     private CustomerScrollView scrollView;
