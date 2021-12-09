@@ -38,10 +38,18 @@ public class DemoView2 extends View {
      */
     private int minDistance = 100;
 
+    public void setMinDistance(int minDistance) {
+        this.minDistance = minDistance;
+    }
+
     /**
      * 代表左右两个可拖组件的最大距离
      */
     private int maxWidth = 400;
+
+    public void setMaxWidth(int maxWidth) {
+        this.maxWidth = maxWidth;
+    }
 
     private int width;
     private int height;

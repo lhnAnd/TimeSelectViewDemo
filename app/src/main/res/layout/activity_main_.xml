@@ -11,7 +11,7 @@
     <com.example.downloaddemo.view.TwoDemoView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.example.downloaddemo.view.DemoTimeLineView
+    <com.example.downloaddemo.DemoTimeLineView
         android:id="@+id/demo_time_line"
         android:layout_width="match_parent"
         android:layout_height="155dp"/>

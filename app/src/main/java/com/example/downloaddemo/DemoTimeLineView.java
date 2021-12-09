@@ -1,4 +1,4 @@
-package com.example.downloaddemo.view;
+package com.example.downloaddemo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,12 +9,44 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.downloaddemo.R;
+import com.example.downloaddemo.view.CustomerScrollView;
+import com.example.downloaddemo.view.DemoView2;
 
 public class DemoTimeLineView extends RelativeLayout {
 
     private CustomerScrollView scrollView;
     private DemoView2 demoView2;
     private TextView tvTime;
+    /**
+     * 组件所选时间的最大长度
+     */
+    private int maxLength;
+    /**
+     * 组件所选时间段的最小长度
+     */
+    private int minLength;
+
+    /**
+     * 设置最大长度
+     * @param maxLength 最大长度，单位是像素
+     */
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+        if (demoView2 != null){
+            demoView2.setMaxWidth(maxLength);
+        }
+    }
+
+    /**
+     * 设置最小长度
+     * @param minLength 最小长度，单位是像素
+     */
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+        if (demoView2!=null){
+            demoView2.setMinDistance(minLength);
+        }
+    }
 
     public DemoTimeLineView(Context context) {
         super(context);
@@ -33,7 +65,7 @@ public class DemoTimeLineView extends RelativeLayout {
         new Thread(){
             @Override
             public void run() {
-                Log.e("TEST","run()");
+                Log.d("TEST","run()");
                 demoView2.setOver(false);
                 while (!demoView2.isOver()){
                     try {

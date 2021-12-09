@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 
 import com.example.downloaddemo.R;
-import com.example.downloaddemo.view.DemoTimeLineView;
+import com.example.downloaddemo.DemoTimeLineView;
 
 public class MainActivity extends Activity {
     private Button button;
