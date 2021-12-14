@@ -3,11 +3,42 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/demo_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="demo"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/demo_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo"/>
+        <Button
+            android:id="@+id/demo_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login"/>
+        <Button
+            android:id="@+id/demo_button_event_bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="send"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/demo_button_event_bus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login"/>
+        <Button
+            android:id="@+id/demo_button_kt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tokt"/>
+    </LinearLayout>
+
     <com.example.downloaddemo.view.TwoDemoView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -15,6 +46,4 @@
         android:id="@+id/demo_time_line"
         android:layout_width="match_parent"
         android:layout_height="155dp"/>
-
-
 </LinearLayout>
