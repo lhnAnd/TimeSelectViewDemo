@@ -13,15 +13,23 @@
             android:layout_height="wrap_content"
             android:text="demo"/>
         <Button
+            android:layout_marginLeft="6dp"
             android:id="@+id/demo_button_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="login"/>
         <Button
+            android:layout_marginLeft="6dp"
             android:id="@+id/demo_button_event_bus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="send"/>
+        <Button
+            android:layout_marginLeft="6dp"
+            android:id="@+id/shengdanshu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="圣诞树"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,6 +45,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="tokt"/>
+        <Button
+            android:id="@+id/demo_button_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送一个通知"/>
     </LinearLayout>
 
     <com.example.downloaddemo.view.TwoDemoView
