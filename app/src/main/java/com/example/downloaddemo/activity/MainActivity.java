@@ -19,11 +19,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main_);
         button  = findViewById(R.id.demo_button);
         demoTimeLineView = findViewById(R.id.demo_time_line);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                demoTimeLineView.startRun();
-            }
-        });
+
     }
 }
