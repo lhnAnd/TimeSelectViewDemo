@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.downloaddemo.R;
+import com.example.downloaddemo.event.MessageEvent2;
+import com.example.downloaddemo.util.LogUtil;
 import com.example.downloaddemo.view.CustomerScrollView;
 import com.example.downloaddemo.view.DemoView2;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 2021.11 lhn
@@ -70,7 +74,7 @@ public class DemoTimeLineView extends RelativeLayout {
         new Thread(){
             @Override
             public void run() {
-                Log.d("TEST","run()");
+                LogUtil.d("TEST","run()");
                 demoView2.setOver(false);
                 while (!demoView2.isOver()){
                     try {
@@ -104,7 +108,7 @@ public class DemoTimeLineView extends RelativeLayout {
         demoView2.setOnRightMoveListener(new DemoView2.OnMoveListener() {
             @Override
             public void onMove(int xLeft, int xRight) {
-                Log.d(TAG,"onMove()");
+                LogUtil.d(TAG,"onMove()");
                 if (scrollView != null){
                     int xScroll = scrollView.getScrollX();
                     resetSelectTime(xScroll + xLeft + demoView2.BUTTON_WIDTH, xScroll + xRight);
@@ -120,7 +124,7 @@ public class DemoTimeLineView extends RelativeLayout {
         scrollView.setOnScrollTimeChangeListener(new CustomerScrollView.OnScrollTimeChangeListener() {
             @Override
             public void onScrollTimeChange() {
-                Log.d(TAG,"onScrollTimeChange()");
+                LogUtil.d(TAG,"onScrollTimeChange()");
                 int xScroll = scrollView.getScrollX();
                 resetSelectTime( xScroll + demoView2.getxLeftButton() + demoView2.BUTTON_WIDTH, xScroll + demoView2.getxRightButton());
             }

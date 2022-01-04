@@ -16,9 +16,13 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.downloaddemo.R;
 import com.example.downloaddemo.DemoTimeLineView;
+import com.example.downloaddemo.adapter.SelectAdapter;
+import com.example.downloaddemo.data.ItemData;
 import com.example.downloaddemo.event.MessageEvent;
 import com.example.downloaddemo.event.MessageEvent2;
 
@@ -32,6 +36,8 @@ import butterknife.OnClick;
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private NotificationManager notificationManager;
+    public static LogActivity logActivity;
+    private SelectAdapter selectAdapter;
 
     @BindView(R.id.demo_button)
     Button button;
@@ -48,9 +54,28 @@ public class MainActivity extends Activity {
     @BindView(R.id.demo_button_event_bus2)
     Button bnReceive;
 
+    @BindView(R.id.to_login)
+    Button bnLogin;
+
+    @BindView(R.id.log_recycle2)
+    RecyclerView recyclerView;
+
+    @OnClick(R.id.to_login)
+    void toLogin(){
+        LoginForKTActivity.startActivity(this);
+    }
+    @OnClick(R.id.to_bottom)
+    void toBottom(){
+        recyclerView.getLayoutManager().scrollToPosition(0);
+    }
+
     @OnClick({R.id.demo_button_kt})
     void toKt(){
         KtTestActivity.startActivity(this);
+    }
+    @OnClick({R.id.bn_clear})
+    void clear(){
+        selectAdapter.clear();
     }
 
     @OnClick({R.id.shengdanshu})
@@ -73,12 +98,17 @@ public class MainActivity extends Activity {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_tips01))
                 .build();
         notificationManager.notify(1,notification);
+    }
 
+    @OnClick(R.id.ac_log)
+    void toLog(){
+        LogActivity.startActivity(this);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         //eventBus 使用
+
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
@@ -89,6 +119,9 @@ public class MainActivity extends Activity {
                 demoTimeLineView.startRun();
             }
         });
+        selectAdapter = new SelectAdapter(this);
+        recyclerView.setAdapter(selectAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +138,9 @@ public class MainActivity extends Activity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetMsg(MessageEvent2 msg){
-        bnReceive.setText(msg.getMessage());
+        //bnReceive.setText(msg.getMessage());
+        selectAdapter.addLog(new ItemData(msg.getMessage(),msg.getNum()));
+        recyclerView.getLayoutManager().scrollToPosition(selectAdapter.getItemCount()-1);
         Log.d(TAG,"" + msg.getNum());
     }
 

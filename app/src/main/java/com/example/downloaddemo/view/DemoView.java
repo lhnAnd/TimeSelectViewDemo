@@ -3,7 +3,6 @@ package com.example.downloaddemo.view;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +11,8 @@ import android.widget.ScrollView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.example.downloaddemo.util.LogUtil;
 
 /**
  * 本来是想要通过两个view的点击事件来实现这个效果，但是这样不好绘制中间的两条线，所以放弃
@@ -68,7 +69,7 @@ public class DemoView extends View {
 
     public void setRightLimit(int rightLimit) {
         this.rightLimit = rightLimit;
-        Log.e("two","rightLimit:"+rightLimit + ",this.rightLimit:" + this.rightLimit);
+        LogUtil.e("two","rightLimit:"+rightLimit + ",this.rightLimit:" + this.rightLimit);
     }
     public void setRightLimit() {
         this.rightLimit = screenWidth - getWidth();
@@ -85,20 +86,20 @@ public class DemoView extends View {
                 // 记录触摸点坐标
                 lastX = x;
                 lastY = y;
-                Log.w("VIEW","lastX:"+ lastX + ",lastY:" + lastY+ ",screenWidth:");
+                LogUtil.w("VIEW","lastX:"+ lastX + ",lastY:" + lastY+ ",screenWidth:");
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 计算偏移量
                 int offsetX = x - lastX;
-                Log.w("VIEW","lastX:"+ lastX + ",lastY:" + lastY+ ",x:" + x + ",y:" + y);
+                LogUtil.w("VIEW","lastX:"+ lastX + ",lastY:" + lastY+ ",x:" + x + ",y:" + y);
 //                int offsetY = y - lastY;
                 // 在当前left、top、right、bottom的基础上加上偏移量
-                Log.w("VIEW","left:"+ (getLeft() + offsetX) + ",right:" + (getRight() + offsetX) + ",screenWidth:" + screenWidth);
+                LogUtil.w("VIEW","left:"+ (getLeft() + offsetX) + ",right:" + (getRight() + offsetX) + ",screenWidth:" + screenWidth);
 
                 int newXLeft = Math.max(getLeft() + offsetX, leftLimit);
                 int newXRight = Math.min(getRight() + offsetX, rightLimit);
-                Log.w("VIEW","newXLeft:"+ newXLeft + ",newXRight:" + newXRight+ ",screenWidth:" + screenWidth);
-                Log.w("VIEW","leftLimit:"+ leftLimit + ",rightLimit:" + rightLimit);
+                LogUtil.w("VIEW","newXLeft:"+ newXLeft + ",newXRight:" + newXRight+ ",screenWidth:" + screenWidth);
+                LogUtil.w("VIEW","leftLimit:"+ leftLimit + ",rightLimit:" + rightLimit);
                 if (scrollerLister!=null){
                     scrollerLister.onScroller(newXLeft, newXRight,getWidth());
                 }

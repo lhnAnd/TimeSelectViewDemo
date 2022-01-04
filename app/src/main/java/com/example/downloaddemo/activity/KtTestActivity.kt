@@ -29,7 +29,7 @@ class KtTestActivity: Activity() {
             val data = ItemData(""+index,index)
             exampleList.add(data)
         }
-        myRecycler.adapter = SelectAdapter(this,exampleList)
+        myRecycler.adapter = SelectAdapter(this)
         myRecycler.layoutManager = LinearLayoutManager(this)
     }
 

@@ -42,6 +42,7 @@ public class LoginActivity extends Activity {
                 EventBus.getDefault().post(new MessageEvent2(1,"eventBus______"));
             }
         });
+
     }
 
     /**

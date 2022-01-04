@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +18,7 @@ import android.widget.HorizontalScrollView;
 //import com.alcidae.video.plugin.R;
 //import com.danale.player.Utils;
 //import com.danale.sdk.platform.constant.cloud.RecordType;
-//import com.danale.sdk.utils.Log;
+//import com.danale.sdk.utils.LogUtil;
 //import com.danaleplugin.video.device.bean.CloudRecordInfo;
 //import com.danaleplugin.video.widget.timeline.callback.OnControllListener;
 //import com.danaleplugin.video.widget.timeline.callback.OnScrollToTimeListener;
@@ -28,6 +28,7 @@ import com.example.downloaddemo.callback.OnControllListener;
 import com.example.downloaddemo.callback.OnScrollToTimeListener;
 import com.example.downloaddemo.info.CloudRecordInfo;
 import com.example.downloaddemo.info.TimeAreaInfo;
+import com.example.downloaddemo.util.LogUtil;
 import com.example.downloaddemo.util.Utils;
 
 import java.util.ArrayList;
@@ -233,12 +234,12 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 
 
     public void initTimeAreaView() {
-        Log.e(TAG,"initTimeAreaView()");
+        LogUtil.e(TAG,"initTimeAreaView()");
         mLeft = getLeft();
         mRight = getRight();
         mHeight = getMeasuredHeight();
         mRate = 24f * 10 / TIME_OF_DISPLAY;
-        //Log.d("scrollview", "width : " + mWidth + ",  height = " + mHeight + ", ");
+        //LogUtil.d("scrollview", "width : " + mWidth + ",  height = " + mHeight + ", ");
         mTimeAreaView.setLeft(mLeft);
         mTimeAreaView.setRight(mRight);
         mTimeAreaView.setDisplayWidth(mWidth);
@@ -266,9 +267,9 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
         if (onScrollTimeChangeListener != null){
             onScrollTimeChangeListener.onScrollTimeChange();
         }
-        Log.e(TAG, "lastScrollUpdate =" + lastScrollUpdate);
-        Log.e(TAG, "x:" + getScrollX());
-        Log.e(TAG, "l:" + l);
+        LogUtil.e(TAG, "lastScrollUpdate =" + lastScrollUpdate);
+        LogUtil.e(TAG, "x:" + getScrollX());
+        LogUtil.e(TAG, "l:" + l);
 
         //如果是第一次滑动，更新状态，并开启状态监听线程
         if (lastScrollUpdate == -1) {
@@ -294,17 +295,17 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 
         @Override
         public void run() {
-            Log.e(TAG,"run()");
+            LogUtil.e(TAG,"run()");
             long currentTime = System.currentTimeMillis();
             if ((currentTime - lastScrollUpdate) > 500 || fristToScroll == FRIST_TO_SCROLL) {
                 lastScrollUpdate = -1;
                 mScrollState = SCROLL_STATE_SCROLL_STOP;
-                Log.e(TAG, "ScrollStateHandler: interval > 500 and to play");
+                LogUtil.e(TAG, "ScrollStateHandler: interval > 500 and to play");
                 judgeState();
             } else {
                 if (canScroll) {
                     mScrollState = SCROLL_STATE_SCROLL;
-                    Log.e(TAG, "ScrollStateHandler: interval <= 500 and SCROLL_STATE_SCROLL");
+                    LogUtil.e(TAG, "ScrollStateHandler: interval <= 500 and SCROLL_STATE_SCROLL");
                 }
                 postDelayed(this, 500);
             }
@@ -320,15 +321,15 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_UP:
 //                    mTouchState = TOUCH_STATE_UP;
-//                    Log.e("TIMELINE", "touch up ");
+//                    LogUtil.e("TIMELINE", "touch up ");
 //                    if (System.currentTimeMillis() - clickTime < 300) {
 //
 //                        //todo 临时方法
-//                        Log.e("TIMELINE", "LARGE:  mRate = " + mRate + ";mWidth = " + mWidth + ";timeline width = " + mTimeAreaView.getWidth() + ";mCurPlaytime=" + mCurrentPlayTime + ";scrollX = " + getScrollX());
+//                        LogUtil.e("TIMELINE", "LARGE:  mRate = " + mRate + ";mWidth = " + mWidth + ";timeline width = " + mTimeAreaView.getWidth() + ";mCurPlaytime=" + mCurrentPlayTime + ";scrollX = " + getScrollX());
 //                        changeInterval();
 //
 //
-//                        Log.e("TIMELINE", "LARGE2 :  mRate = " + mRate + ";mWidth = " + mWidth + ";timeline width = " + mTimeAreaView.getWidth() + ";mCurPlaytime=" + mCurrentPlayTime + ";scrollX = " + getScrollX());
+//                        LogUtil.e("TIMELINE", "LARGE2 :  mRate = " + mRate + ";mWidth = " + mWidth + ";timeline width = " + mTimeAreaView.getWidth() + ";mCurPlaytime=" + mCurrentPlayTime + ";scrollX = " + getScrollX());
 //
 //                        new Thread(new Runnable() {
 //                            @Override
@@ -343,14 +344,14 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //                                    public void run() {
 //                                        scrollTo((int) ((mCurrentPlayTime) / (24f * 3600 * 1000) * mRate * mWidth), getScrollY());
 //
-//                                        Log.e("TIMELINE", "LARGE3 :  mRate = " + mRate + ";mWidth = " + mWidth + ";timeline width = " + mTimeAreaView.getWidth() + ";mCurPlaytime=" + mCurrentPlayTime + ";scrollX = " + getScrollX());
+//                                        LogUtil.e("TIMELINE", "LARGE3 :  mRate = " + mRate + ";mWidth = " + mWidth + ";timeline width = " + mTimeAreaView.getWidth() + ";mCurPlaytime=" + mCurrentPlayTime + ";scrollX = " + getScrollX());
 //                                    }
 //                                });
 //                            }
 //                        }).start();
 //
 //                        mTouchState = TOUCH_STATE_DOUBLE;
-//                        Log.e("TIMELINE", "touch 2 up ");
+//                        LogUtil.e("TIMELINE", "touch 2 up ");
 //                    }
 //                    clickTime = System.currentTimeMillis();
                     break;
@@ -372,7 +373,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //                                mControllListener.onStopVideo(mCurrentPlayTime, mNextPlayTime, true);
 //                                isStopForPlayEnd = false;
 //
-//                                Log.e("TIMELINE", "ACTION_MOVE stop ");
+//                                LogUtil.e("TIMELINE", "ACTION_MOVE stop ");
 //
 //                            }
 //                        }, 0);
@@ -401,7 +402,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //    private void calculSelectTime(int scrollX) {
 //        float selectX = mWidth / 2f + scrollX;
 //        long selectTimeOfSec = (long) (scrollX / (mRate * mWidth) * 24 * 3600 * 1000);
-//        Log.e(TAG,"time:" + formatTime(selectTimeOfSec));
+//        LogUtil.e(TAG,"time:" + formatTime(selectTimeOfSec));
 ////        if (mWatchType == WATCH_TYPE_ALARM) {
 ////            mScrollToTimeListener.onScrollToTime(formatTime(mWatchAlarmSelectTime));
 ////        } else {
@@ -412,7 +413,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
     public String calculSelectTime(int scrollX) {
         float selectX = scrollX - mWidth / 2f;
         long selectTimeOfSec = (long) (selectX / (mRate * mWidth) * 24 * 3600 * 1000);
-//        Log.e(TAG,"time:" + formatTime(selectTimeOfSec));
+//        LogUtil.e(TAG,"time:" + formatTime(selectTimeOfSec));
 //        if (mWatchType == WATCH_TYPE_ALARM) {
 //            mScrollToTimeListener.onScrollToTime(formatTime(mWatchAlarmSelectTime));
 //        } else {
@@ -462,13 +463,13 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
     }
 
     private void judgeState() {
-        Log.e("zzq-timeline", "mTouchState :  " + mTouchState + "   mScrollState: " + mScrollState + "   mWatchType:  " + mWatchType);
+        LogUtil.e("zzq-timeline", "mTouchState :  " + mTouchState + "   mScrollState: " + mScrollState + "   mWatchType:  " + mWatchType);
 
         if ((mTouchState == TOUCH_STATE_UP && mScrollState == SCROLL_STATE_SCROLL_STOP)
                 || (mScrollState == SCROLL_STATE_SCROLL_STOP && mWatchType == WATCH_TYPE_ALARM)) {
             mTouchState = TOUCH_STATE_OTHER;
             mScrollState = SCROLL_STATE_IDEL;
-            Log.e(TAG, "judgeState: MoveToRunnable ： " + getScrollX());
+            LogUtil.e(TAG, "judgeState: MoveToRunnable ： " + getScrollX());
             canScroll = false;
 //            postDelayed(new MoveToRunnable(searchNearestRecord(getScrollX())), getFristToScroll() ? 0 : 500);
 
@@ -493,7 +494,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 
         @Override
         public void run() {
-            Log.e(TAG, "MoveToRunnable: run start,mScrollState = " + mScrollState);
+            LogUtil.e(TAG, "MoveToRunnable: run start,mScrollState = " + mScrollState);
 //            if (mScrollState == SCROLL_STATE_IDEL) {
 //                moveToPlayStartedPlace(mTimeAreaInfo, true);
 //            }
@@ -506,18 +507,18 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //        //拖到时间轴走这里
 //        if (timeAreaInfo == null) {
 //            canScroll = true;
-////            Log.e("zzq-cloud","moveToPlayStartedPlace  timeAreaInfo =  null");
+////            LogUtil.e("zzq-cloud","moveToPlayStartedPlace  timeAreaInfo =  null");
 //            mControllListener.onOutOfLimit();
 //
 //
 //            return;
 //        }
-//        Log.e(TAG, "MoveToRunnable: moveToPlayStartedPlace timeAreaInfo = " + timeAreaInfo.getCloudRecordInfo().getStartTime());
+//        LogUtil.e(TAG, "MoveToRunnable: moveToPlayStartedPlace timeAreaInfo = " + timeAreaInfo.getCloudRecordInfo().getStartTime());
 //
 //        final long pushMsgCre = timeAreaInfo.getCloudRecordInfo().getStartTime();
-//        Log.e(TAG, "MoveToRunnable: moveToPlayStartedPlace pushMsgCre = " + pushMsgCre);
+//        LogUtil.e(TAG, "MoveToRunnable: moveToPlayStartedPlace pushMsgCre = " + pushMsgCre);
 //
-////        Log.e("zzq-cloud","moveToPlayStartedPlace  pushStartTime= " + pushMsgCre);
+////        LogUtil.e("zzq-cloud","moveToPlayStartedPlace  pushStartTime= " + pushMsgCre);
 //        if (timeAreaInfo.getTimeLinePlace() == TimeAreaInfo.OUTSIDE_AREA) {
 //            isAutoToScrollNearest = true;
 //            scrollTo((int) (timeAreaInfo.getStartPercentage() * mRate * mWidth), getScrollY());
@@ -535,14 +536,14 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //            mCurrentPlayTime = mCurrentTimeAreaInfo.getStartTimeOfDay();
 //        }
 //
-//        //Log.d("playtime", mCurrentPlayTime + ",startTime = " + mCurrentTimeAreaInfo.getCloudRecordInfo().getStartTime());
-//        Log.e(TAG, "MoveToRunnable: onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime);
+//        //LogUtil.d("playtime", mCurrentPlayTime + ",startTime = " + mCurrentTimeAreaInfo.getCloudRecordInfo().getStartTime());
+//        LogUtil.e(TAG, "MoveToRunnable: onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime);
 //        canScroll = false;
 //
 //        if (timeAreaInfo.getCloudRecordInfo().getRecordType() == CLIPS) {
-//            Log.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS " + mCurrentPlayTime);
-//            Log.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS mLastPlayTime " + mLastPlayTime);
-//            Log.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS mNextPlayTime " + mNextPlayTime);
+//            LogUtil.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS " + mCurrentPlayTime);
+//            LogUtil.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS mLastPlayTime " + mLastPlayTime);
+//            LogUtil.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS mNextPlayTime " + mNextPlayTime);
 //            for (TimeAreaInfo timeAreaInfos : getRecordInfoList()) {
 //                if (timeAreaInfos.getmStartTime() == pushMsgCre) {
 //                    if (getRecordInfoList().indexOf(timeAreaInfos) < getRecordInfoList().size() - 1) {
@@ -554,8 +555,8 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //            }
 //            mControllListener.onPlayVideo(mCurrentPlayTime, mLastPlayTime, clipsNextPlayTime, byHand, 1, pushMsgCre);
 //        } else {
-////            Log.e("zzq-cloud","moveToPlayStartedPlace  onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime + "; pushMsgCret = " + pushMsgCre);
-//            Log.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS=!null " + mCurrentPlayTime);
+////            LogUtil.e("zzq-cloud","moveToPlayStartedPlace  onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime + "; pushMsgCret = " + pushMsgCre);
+//            LogUtil.e(TAG, "MoveToRunnable: getCloudRecordInfo().getRecordType()==CLIPS=!null " + mCurrentPlayTime);
 //            mControllListener.onPlayVideo(mCurrentPlayTime, mLastPlayTime, mNextPlayTime, byHand, -1, pushMsgCre);
 //        }
 //
@@ -569,9 +570,9 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //
 //            return;
 //        }
-//        Log.e(TAG, "moveToPlayWarnMsgPlace:  timePointInfo = " + timePointInfo.getmStartTime());
+//        LogUtil.e(TAG, "moveToPlayWarnMsgPlace:  timePointInfo = " + timePointInfo.getmStartTime());
 //        long pushMsgCre = timePointInfo.getmStartTime();
-//        Log.e(TAG, "moveToPlayWarnMsgPlace: moveToPlayStartedPlace pushMsgCre = " + pushMsgCre);
+//        LogUtil.e(TAG, "moveToPlayWarnMsgPlace: moveToPlayStartedPlace pushMsgCre = " + pushMsgCre);
 //        mControllListener.onStopVideo(mCurrentPlayTime, mNextPlayTime, true);
 //        isAutoToScrollNearest = true;
 //        scrollTo((int) (timePointInfo.getStartPercentage() * mRate * mWidth), getScrollY());
@@ -593,7 +594,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //                mCurrentPlayTime = mCurrentTimeAreaInfo.getStartTimeOfDay();
 //            }
 //            int isClips = -1;
-//            Log.e(TAG, "moveToPlayWarnMsgPlace: onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime);
+//            LogUtil.e(TAG, "moveToPlayWarnMsgPlace: onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime);
 //            for (TimeAreaInfo timeAreaInfo : getRecordInfoList()) {
 //                if (timeAreaInfo.getmStartTime() == pushMsgCre) {
 //                    if (timeAreaInfo.getCloudRecordInfo().getRecordType() == CLIPS) {
@@ -658,9 +659,9 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //            canScroll = true;
 //            return;
 //        }
-//        Log.e(TAG, "moveToFirstWarnMsgPlace:  timeAreaInfo = " + timeAreaInfo.getCloudRecordInfo().getStartTime());
+//        LogUtil.e(TAG, "moveToFirstWarnMsgPlace:  timeAreaInfo = " + timeAreaInfo.getCloudRecordInfo().getStartTime());
 //        long pushMsgCre = timeAreaInfo.getCloudRecordInfo().getStartTime();
-//        Log.e(TAG, "moveToFirstWarnMsgPlace: moveToPlayStartedPlace pushMsgCre = " + pushMsgCre);
+//        LogUtil.e(TAG, "moveToFirstWarnMsgPlace: moveToPlayStartedPlace pushMsgCre = " + pushMsgCre);
 //        mControllListener.onStopVideo(mCurrentPlayTime, mNextPlayTime, true);
 //        isAutoToScrollNearest = true;
 //        scrollTo((int) (timeAreaInfo.getStartPercentage() * mRate * mWidth), getScrollY());
@@ -677,7 +678,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //        }
 //
 ////		mCurrentPlayTime = mCurrentTimeAreaInfo.getPlayTimeMask();
-//        Log.e(TAG, "moveToFirstWarnMsgPlace: onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime);
+//        LogUtil.e(TAG, "moveToFirstWarnMsgPlace: onPlayVideo mCurrentPlayTime = " + mCurrentPlayTime);
 //        mControllListener.onPlayVideo(mCurrentPlayTime, mLastPlayTime, mNextPlayTime, byHand, 0, pushMsgCre);
 //
 //    }
@@ -690,7 +691,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //            mWatchType = WATCH_TYPE_NORMAL;
 //        } else {
 //            selectTimeOfSec = (long) ((scrollX / (mRate * mWidth)) * 24 * 3600 * 1000);
-//            Log.e(TAG, "searchNearestRecord: selectTimeOfSec = " + selectTimeOfSec);
+//            LogUtil.e(TAG, "searchNearestRecord: selectTimeOfSec = " + selectTimeOfSec);
 //        }
 //        ArrayList<TimeAreaInfo> list = getRecordInfoList();
 //        if (list == null) {
@@ -702,7 +703,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //                if (list.size() > 1) {
 //                    mNextPlayTime = list.get(1).getStartTimeOfDay();
 //                }
-//                Log.e(TAG, "searchNearestRecord: list.get(0) = " + list.get(0));
+//                LogUtil.e(TAG, "searchNearestRecord: list.get(0) = " + list.get(0));
 //                return list.get(0);
 //
 //            } else if (selectTimeOfSec >= list.get(i).getStartTimeOfDay()
@@ -713,7 +714,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //                    mNextPlayTime = list.get(i + 1).getStartTimeOfDay();
 //                }
 //
-//                Log.e(TAG, "searchNearestRecord: list.get(i) = " + list.get(i));
+//                LogUtil.e(TAG, "searchNearestRecord: list.get(i) = " + list.get(i));
 //                return list.get(i);
 //
 //            } else if ((i + 1) < list.size()) {
@@ -723,7 +724,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //                    if (i + 1 < list.size() - 1) {
 //                        mNextPlayTime = list.get(i + 2).getStartTimeOfDay();
 //                    }
-//                    Log.e(TAG, "searchNearestRecord: list.get(i + 1) = " + list.get(i + 1));
+//                    LogUtil.e(TAG, "searchNearestRecord: list.get(i + 1) = " + list.get(i + 1));
 //                    return list.get(i + 1);
 //                }
 //
@@ -778,7 +779,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
      */
     public void startScroll(boolean needScroll) {
         needScr = needScroll;
-//        Log.e("zzq-cloud","startScroll");
+//        LogUtil.e("zzq-cloud","startScroll");
         isPlaying = true;
         mVideoState = VIDEO_STATE_PLAY;
 
@@ -799,8 +800,8 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
                 mCurrentPlayTime = mCurrentPlayTime + 1000;
                 if (mCurrentTimeAreaInfo != null) {
                     if (mCurrentPlayTime > mCurrentTimeAreaInfo.getEndTimeOfDay()) {
-//                        Log.e("zzq-cloud","mCurrentPlayTime = " + mCurrentPlayTime + ";mCurretTimeEndTimeOfDay = " + mCurrentTimeAreaInfo.getEndTimeOfDay());
-//                        Log.e("zzq-cloud","mCurretTimeEndTimeOfDay hour = " + mCurrentTimeAreaInfo.getHour() +
+//                        LogUtil.e("zzq-cloud","mCurrentPlayTime = " + mCurrentPlayTime + ";mCurretTimeEndTimeOfDay = " + mCurrentTimeAreaInfo.getEndTimeOfDay());
+//                        LogUtil.e("zzq-cloud","mCurretTimeEndTimeOfDay hour = " + mCurrentTimeAreaInfo.getHour() +
 //                                "; min = " + mCurrentTimeAreaInfo.getMinute() + ";sec = " + mCurrentTimeAreaInfo.getSecond() + ";mill = " + mCurrentTimeAreaInfo.getMill());
                         stopScroll(VIDEO_STATE_STOP);
                         canScroll = false;
@@ -809,7 +810,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
                         mControllListener.onStopVideo(mCurrentPlayTime, mNextPlayTime, false);
                         // stop auto, stop scroll,onStop,canScroll
                     } else {
-//                        Log.e("zzq-cloud","onScrollToTime formatime =   " + formatTime(mCurrentPlayTime));
+//                        LogUtil.e("zzq-cloud","onScrollToTime formatime =   " + formatTime(mCurrentPlayTime));
                         mScrollToTimeListener.onScrollToTime(formatTime(mCurrentPlayTime));
                         ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
@@ -899,7 +900,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
 //        TimeAreaInfo timeAreaInfo = list.get(mCurrentIndex + 1);
 //        if (mCurrentIndex + 2 < list.size()) {
 //            mNextPlayTime = list.get(mCurrentIndex + 2).getStartTimeOfDay();
-////            Log.e("zzq-cloud","jumpToNextVideoToPlay mNextPlayTime, " +  list.get(mCurrentIndex + 2).getSTHour() + "; " +  list.get(mCurrentIndex + 2).getSTMinute() + "; " +
+////            LogUtil.e("zzq-cloud","jumpToNextVideoToPlay mNextPlayTime, " +  list.get(mCurrentIndex + 2).getSTHour() + "; " +  list.get(mCurrentIndex + 2).getSTMinute() + "; " +
 ////                    list.get(mCurrentIndex + 2).getSTSecond() + "; " +  list.get(mCurrentIndex + 2).getSTMill());
 //        }
 //        timeAreaInfo.setTimeLinePlace(TimeAreaInfo.OUTSIDE_AREA);
