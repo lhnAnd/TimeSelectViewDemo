@@ -83,6 +83,6 @@ public class SpUtil {
     }
 
     public static void remove(Context context,String key){
-        get(context,DEFAULT).edit().remove(key).commit();
+        get(context,DEFAULT).edit().remove(key).apply();
     }
 }
