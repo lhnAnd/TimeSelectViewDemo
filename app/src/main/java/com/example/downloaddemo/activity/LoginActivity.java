@@ -1,14 +1,19 @@
 package com.example.downloaddemo.activity;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Path;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.downloaddemo.R;
 import com.example.downloaddemo.event.MessageEvent;
@@ -22,14 +27,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends Activity {
+    private static final String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login_title)
     TextView textView;
     @BindView(R.id.test_event_bus)
     Button bnEventBus;
+    @BindView(R.id.ani)
+    View ani;
     public static void startActivity(Context context){
         Intent intent = new Intent(context,LoginActivity.class);
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +52,23 @@ public class LoginActivity extends Activity {
             }
         });
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Path path = new Path();
+        path.quadTo(800, 200, 800, 800);
+        //位移动画
+        ObjectAnimator animator = ObjectAnimator.ofFloat(ani, "x", "y", path);
+        animator.setDuration(4000);
+        animator.start();
+        //颜色渐变动画
+        ObjectAnimator animator2 = ObjectAnimator.ofArgb(ani, "BackgroundColor", 0xff000000, 0x00110011, 0xffff22ff);
+        animator2.setDuration(4000);
+        animator2.start();
+        Log.e(TAG,0xff000000+",,");
     }
 
     /**
