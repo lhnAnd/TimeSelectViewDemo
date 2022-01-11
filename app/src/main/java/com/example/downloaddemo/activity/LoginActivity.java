@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+@Deprecated
 public class LoginActivity extends Activity {
     private static final String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login_title)

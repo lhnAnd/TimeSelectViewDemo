@@ -1,6 +1,7 @@
 package com.example.downloaddemo.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -23,8 +24,10 @@ import com.example.downloaddemo.R;
 import com.example.downloaddemo.DemoTimeLineView;
 import com.example.downloaddemo.adapter.SelectAdapter;
 import com.example.downloaddemo.data.ItemData;
+import com.example.downloaddemo.db.DbUtil;
 import com.example.downloaddemo.event.MessageEvent;
 import com.example.downloaddemo.event.MessageEvent2;
+import com.example.downloaddemo.view.OtherDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -102,7 +105,18 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.ac_log)
     void toLog(){
-        LogActivity.startActivity(this);
+        DbUtil dbUtil = DbUtil.getInstance(this);
+//        dbUtil.createTable();
+        dbUtil.insert();
+        dbUtil.query();
+//        LogActivity.startActivity(this);
+    }
+
+    @OnClick
+    void toOther(){
+        OtherDialog otherDialog = new OtherDialog(this);
+        otherDialog.setCanceledOnTouchOutside(true);
+        otherDialog.show();
     }
 
     @Override
