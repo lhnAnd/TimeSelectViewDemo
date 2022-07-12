@@ -1,5 +1,6 @@
 package com.example.downloaddemo.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Notification;
@@ -11,7 +12,10 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -27,7 +31,9 @@ import com.example.downloaddemo.data.ItemData;
 import com.example.downloaddemo.db.DbUtil;
 import com.example.downloaddemo.event.MessageEvent;
 import com.example.downloaddemo.event.MessageEvent2;
+import com.example.downloaddemo.util.LogUtil;
 import com.example.downloaddemo.view.OtherDialog;
+import com.example.downloaddemo.view.PerFloatView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,7 +89,8 @@ public class MainActivity extends Activity {
 
     @OnClick({R.id.shengdanshu})
     void toShengdanshu(){
-        ShengdanshuActivity.startActivity(this);
+        Intent intent = new Intent(this,NewMainActivity.class);
+        startActivity(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -112,7 +119,7 @@ public class MainActivity extends Activity {
 //        LogActivity.startActivity(this);
     }
 
-    @OnClick
+    @OnClick(R.id.other_button)
     void toOther(){
         OtherDialog otherDialog = new OtherDialog(this);
         otherDialog.setCanceledOnTouchOutside(true);
@@ -125,8 +132,17 @@ public class MainActivity extends Activity {
 
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+//        View view1 = LayoutInflater.from(this).inflate(R.layout.activity_main_,null);
         setContentView(R.layout.activity_main_);
         ButterKnife.bind(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.per_float, null);
+        WindowManager.LayoutParams layoutParam = new WindowManager.LayoutParams();
+        layoutParam.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParam.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParam.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        getWindowManager().addView(view,layoutParam);
+        view.setOnTouchListener(new ItemListener(getWindowManager(),layoutParam));
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,5 +178,48 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    class ItemListener implements View.OnTouchListener {
+        private int lastX;
+        private int lastY;
+        private int x1;
+        private int y1;
+        private WindowManager manager;
+        private WindowManager.LayoutParams layoutParams;
+
+        public ItemListener(WindowManager manager, WindowManager.LayoutParams layoutParams) {
+            this.manager = manager;
+            this.layoutParams = layoutParams;
+            x1 = layoutParams.x;
+            y1 = layoutParams.y;
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            int x = (int) event.getRawX();
+            int y = (int) event.getRawY();
+            Log.d(TAG,"action:" + event.getAction() + ",X = " + x + ",Y = " + y+",view=" + v.hashCode());
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    lastX = x;
+                    lastY = y;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    int offsetX = x - lastX;
+                    int offsetY = y - lastY;
+                    x1 = x1 + offsetX;
+                    y1 = y1 + offsetY;
+                    layoutParams.x = x1;
+                    layoutParams.y = y1;
+                    lastX = x;
+                    lastY = y;
+                    Log.d(TAG,"NEWX = " + layoutParams.x + ",NEWY = " + layoutParams.y);
+                    manager.updateViewLayout(v, layoutParams);
+                    break;
+            }
+            return false;
+        }
     }
 }
