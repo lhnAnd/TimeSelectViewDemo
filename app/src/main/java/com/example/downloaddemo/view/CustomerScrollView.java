@@ -42,7 +42,7 @@ public class CustomerScrollView extends HorizontalScrollView implements OnVideoS
     private static final String TAG = CustomerScrollView.class.getSimpleName();
 
     //决定了时间轴的间距
-    public int TIME_OF_DISPLAY = 10;
+    public float TIME_OF_DISPLAY = 2.5f;
 
     public static final int SCROLL_STATE_SCROLL = 1;
     public static final int SCROLL_STATE_SCROLL_STOP = 2;

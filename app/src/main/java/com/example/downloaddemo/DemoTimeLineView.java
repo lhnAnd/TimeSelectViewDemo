@@ -112,6 +112,8 @@ public class DemoTimeLineView extends RelativeLayout {
                 if (scrollView != null){
                     int xScroll = scrollView.getScrollX();
                     resetSelectTime(xScroll + xLeft + demoView2.BUTTON_WIDTH, xScroll + xRight);
+//                    demoView2.setMinNum();
+
                 }
             }
         });

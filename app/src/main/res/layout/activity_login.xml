@@ -51,20 +51,10 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/til_user_password"
         android:orientation="vertical">
-        <Button
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/test_event_bus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"/>
-        <View
-            android:id="@+id/ani"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
-
+        <com.example.downloaddemo.view.DownloadView
+            android:layout_width="200dp"
+            android:layout_height="200dp"/>
     </LinearLayout>
-
 
 
 </RelativeLayout>

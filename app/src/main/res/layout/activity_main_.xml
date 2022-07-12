@@ -29,7 +29,7 @@
             android:id="@+id/shengdanshu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="圣诞树"/>
+            android:text="new page"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:text="发送一个通知"/>
         <Button
+
             android:background="@color/black"
             android:id="@+id/other_button"
             android:textColor="@color/white"
@@ -84,13 +85,11 @@
             android:text="到底部"/>
     </LinearLayout>
 
-    <com.example.downloaddemo.view.TwoDemoView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
     <com.example.downloaddemo.DemoTimeLineView
         android:id="@+id/demo_time_line"
         android:layout_width="match_parent"
-        android:layout_height="155dp"/>
+        android:layout_height="wrap_content"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -60,7 +60,7 @@ public class TimeAreaView extends View {
     private int mLeft;
     private int mRight;
     private float mRate;
-    private int mDisplayTime;
+    private float mDisplayTime;
     private Handler mHandler;
     private boolean isDrawWarnAllArea = true;
     public boolean getIsDarkTheme() {
@@ -219,7 +219,7 @@ public class TimeAreaView extends View {
 
     }
 
-    public void setTimeOfDisplayWidth(int displayTime) {
+    public void setTimeOfDisplayWidth(float displayTime) {
         mDisplayTime = displayTime;
         mRate = 24f * 10 / mDisplayTime;
         mWidth = (int) (mDisplayWidth * (mRate + STEP_SIZE));
@@ -343,7 +343,6 @@ public class TimeAreaView extends View {
                         mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE_DARK);
                     } else {
                         mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
-
                     }
 //				canvas.drawLine(mLeft + wigth, 0, mLeft + wigth, DensityConverter.dp2px(getContext(), 15),
 //						mTimeSplitLinePaint);
@@ -425,83 +424,41 @@ public class TimeAreaView extends View {
                             mTimeSplitLinePaint);
                 }
             }
-
-//        }else {
-//            for (int i = 0; i <= 240; i++) {
-//                float wigth;
-//                wigth = (mDisplayWidth / 2f + mDisplayWidth / (float) mDisplayTime * i)*3/2;
-//                if (i % 10 == 0) {
-//                    StringBuilder builder = new StringBuilder();
-//
-//                    builder.append(i / 10);
-//                    builder.append(":00");
-//                    drawTimeText(canvas, builder.toString(), wigth);
-//                }
-//
-//
-//                if (i % 10 == 0) {
-//                    if (getIsDarkTheme()) {
-//                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE_DARK);
-//                    } else {
-//                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
-//
-//                    }
-////				canvas.drawLine(mLeft + wigth, 0, mLeft + wigth, DensityConverter.dp2px(getContext(), 15),
-////						mTimeSplitLinePaint);
-//                    canvas.drawLine(mLeft + wigth, getHeight(), mLeft + wigth, getHeight() - DensityConverter.dp2px(getContext(), 15),
-//                            mTimeSplitLinePaint);
-//                } else {
-//                    if (getIsDarkTheme()) {
-//                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE_DARK);
-//                    } else {
-//                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
-//
-//                    }
-////				canvas.drawLine(mLeft + wigth, 0, mLeft + wigth, DensityConverter.dp2px(getContext(), 8),
-////						mTimeSplitLinePaint);
-//
-//                    canvas.drawLine(mLeft + wigth, getHeight(), mLeft + wigth, getHeight() - DensityConverter.dp2px(getContext(), 8),
-//                            mTimeSplitLinePaint);
-//                }
-//            }
-
-        } else {
-            for (int i = 0; i <= 24 * 6; i++) {
+        } else if(mDisplayTime == 2.5){
+            for (int i = 0; i <= 24 * 30; i++) {
                 float wigth;
-                wigth = mDisplayWidth / 2f + mDisplayWidth / (float) 18 * i;
-                if (i % 6 == 0) {
-                    StringBuilder builder = new StringBuilder();
-
-                    builder.append(i / 6);
-                    builder.append(":00");
-                    drawTimeText(canvas, builder.toString(), wigth);
+                wigth = mDisplayWidth / 2f + mDisplayWidth / (float) 7.5 * i;
+                StringBuilder builder = new StringBuilder();
+                if (i/30<10) {
+                    builder.append("0");
                 }
-
-
-                if (i % 6 == 0) {
-                    if (getIsDarkTheme()) {
-                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE_DARK);
-                    } else {
-                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
-
-                    }
-//				canvas.drawLine(mLeft + wigth, 0, mLeft + wigth, DensityConverter.dp2px(getContext(), 15),
-//						mTimeSplitLinePaint);
-                    canvas.drawLine(mLeft + wigth, getHeight(), mLeft + wigth, getHeight() - DensityConverter.dp2px(getContext(), 15),
-                            mTimeSplitLinePaint);
+                builder.append(i / 30);
+                builder.append(":");
+                if (i%30*2<10){
+                    builder.append("0");
+                }
+                builder.append(i%30*2);
+                drawTimeText(canvas, builder.toString(), wigth);
+                if (getIsDarkTheme()) {
+                    mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE_DARK);
                 } else {
-                    if (getIsDarkTheme()) {
-                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE_DARK);
-                    } else {
-                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
+                    mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
 
-                    }
-//				canvas.drawLine(mLeft + wigth, 0, mLeft + wigth, DensityConverter.dp2px(getContext(), 8),
-//						mTimeSplitLinePaint);
-
-                    canvas.drawLine(mLeft + wigth, getHeight(), mLeft + wigth, getHeight() - DensityConverter.dp2px(getContext(), 8),
-                            mTimeSplitLinePaint);
                 }
+                canvas.drawLine(mLeft + wigth, (float)(getHeight()*0.8), mLeft + wigth, (float)(getHeight()*0.8) - DensityConverter.dp2px(getContext(), 15),
+                        mTimeSplitLinePaint);
+                if (i!=24*30){
+                    for(int j = 1; j<10; j++){
+                        float shortWigth;
+
+                        shortWigth = wigth + mDisplayWidth * j /75;
+                        Log.w(TAG,shortWigth+",");
+                        mTimeSplitLinePaint.setColor(PAINT_COLOR_TIME_SPLIT_LINE);
+                        canvas.drawLine(mLeft + shortWigth, (float)(getHeight()*0.8), mLeft + shortWigth, (float)(getHeight()*0.8) - DensityConverter.dp2px(getContext(), 8),
+                                mTimeSplitLinePaint);
+                    }
+                }
+
             }
         }
 
@@ -559,26 +516,5 @@ public class TimeAreaView extends View {
     private int xRightButton = 1080 - 240;
     private int lastX;
     private int lastY;
-
-//    public void updateDownView(){
-//        if(xRightButton<=lastX && lastX<=xRightButton+buttonWidth){
-//
-//            android.util.Log.e(TAG,(xRightButton + offsetX) + "," + (xLeftButton + buttonWidth) + "," + (xRightButton + offsetX));
-//            if (xRightButton + offsetX > xLeftButton + buttonWidth && xRightButton + offsetX < screenWidth-buttonWidth){
-//                xRightButton = xRightButton + offsetX;
-//                invalidate();
-//                lastX = x;
-//                lastY = y;
-//            }else if (!(xRightButton + offsetX > xLeftButton + buttonWidth)){
-//                xRightButton = xLeftButton + buttonWidth;
-//                invalidate();
-////                        lastX = xLeftButton + buttonWidth;
-//            }else {
-//                xRightButton = screenWidth-buttonWidth;
-//                invalidate();
-//                lastX = screenWidth-buttonWidth;
-//            }
-//        }
-//    }
 
 }

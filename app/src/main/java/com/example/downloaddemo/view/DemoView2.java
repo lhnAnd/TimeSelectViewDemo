@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -13,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import com.example.downloaddemo.R;
 
 /**
@@ -36,7 +39,7 @@ public class DemoView2 extends View {
     /**
      * 代表左右两个可拖组件的最小距离
      */
-    private int minDistance = 100;
+    private int minDistance = 120;
 
     public void setMinDistance(int minDistance) {
         this.minDistance = minDistance;
@@ -53,6 +56,16 @@ public class DemoView2 extends View {
 
     private int width;
     private int height;
+    private int minNum= 4;
+    private int secondNum = 10;
+
+    public void setMinNum(int minNum) {
+        this.minNum = minNum;
+    }
+
+    public void setSecondNum(int secondNum) {
+        this.secondNum = secondNum;
+    }
 
     public DemoView2(Context context) {
         super(context);
@@ -76,6 +89,8 @@ public class DemoView2 extends View {
     private int lastX;
     private int lastY;
     private Paint paint;
+    private Paint blackPaint;
+    Paint textPaint;
     /**
      * 时间指针画笔
      */
@@ -113,13 +128,18 @@ public class DemoView2 extends View {
      * 初始化画笔和宽度
      */
     void init(){
+        textPaint = new Paint();
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextSize(35);
         paint = new Paint();
+        blackPaint = new Paint();
+        blackPaint.setColor(getResources().getColor(R.color.black_60));
         linePaint = new Paint();
         linePaint.setColor(Color.RED);
         linePaint.setStrokeWidth(2);
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.FILL);
-        paint.setAlpha(50);
+        paint.setAlpha(100);
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         WindowManager manager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         // 方法1,获取屏幕的默认分辨率
@@ -178,7 +198,7 @@ public class DemoView2 extends View {
                     Log.e(TAG,"xRightButton:" + xLeftButton + ",lastX" + lastX + "," + maxPosition);
                     if (xLeftButton+offsetX<=maxPosition && (xLeftButton + offsetX) >= 0){
                         xLeftButton = xLeftButton+offsetX;
-                        if (xLeftButton+offsetX < xRightButton - maxWidth - BUTTON_WIDTH){
+                        if (xLeftButton < xRightButton - maxWidth - BUTTON_WIDTH){
                             xRightButton = xRightButton - (xRightButton - maxWidth - BUTTON_WIDTH -(xLeftButton+offsetX));
                         }
                         invalidate();
@@ -202,7 +222,7 @@ public class DemoView2 extends View {
                     if (xRightButton + offsetX > minPosition && xRightButton + offsetX < screenWidth- BUTTON_WIDTH){
 
                         xRightButton = xRightButton + offsetX;
-                        if (xRightButton + offsetX >= xLeftButton + maxWidth + BUTTON_WIDTH){
+                        if (xRightButton >= xLeftButton + maxWidth + BUTTON_WIDTH){
                             xLeftButton = xLeftButton + (  xRightButton + offsetX - xLeftButton - maxWidth - BUTTON_WIDTH);
                         }
                         lastX = x;
@@ -227,6 +247,7 @@ public class DemoView2 extends View {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
         if (onMoveListener!=null){
@@ -241,10 +262,12 @@ public class DemoView2 extends View {
 //                canvas.drawRect(xLeftButton,(float)(getHeight()*0.2),xLeftButton + buttonWidth, (float)(getHeight()-getHeight()*0.2) ,paint);
 //                canvas.drawRect(xRightButton,(float)(getHeight()*0.2),xRightButton + buttonWidth, (float)(getHeight()-getHeight()*0.2),paint);
                 canvas.drawBitmap(leftBitmap,xLeftButton,getHeight()*0.2f,paint);
+                canvas.drawRoundRect((float) (xLeftButton+BUTTON_WIDTH+10),getHeight()*0.25f,(float)(xLeftButton+BUTTON_WIDTH+100),getHeight()*0.3f+50,10,10,blackPaint);
+                canvas.drawText(minNum + "'" + secondNum + "'",(float) (xLeftButton+BUTTON_WIDTH+12),getHeight()*0.3f+30,textPaint);
                 canvas.drawBitmap(rightBitmap,xRightButton,getHeight()*0.2f,paint);
                 canvas.drawRect(xLeftButton+ BUTTON_WIDTH,(float)(getHeight()*0.2),xRightButton, (float)(getHeight()*0.2) + 10,paint);
                 canvas.drawRect(xLeftButton+ BUTTON_WIDTH,(float)(getHeight()-10-getHeight()*0.2),xRightButton, (float)(getHeight()-getHeight()*0.2),paint);
-                Log.e("TEST", "to drawPointer2 ");
+//                Log.e("TEST", "to drawPointer2 ");
                 canvas.drawLine(xLeftButton+ BUTTON_WIDTH +2+pointerOffset,0,pointerOffset + xLeftButton+ BUTTON_WIDTH + 2,getHeight(),linePaint);
             }
         }
